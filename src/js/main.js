@@ -14,23 +14,20 @@ function changeTextAndNumber(textCharpter, textContent) {
   chapterText.innerHTML = textContent;
   console.log("Text and number changed");
 }
-
 const navHome = document.querySelector(".nav-home");
 const navCharpter1 = document.querySelector(".nav-charpter-1");
 const navCharpter2 = document.querySelector(".nav-charpter-2");
 const navCharpter3 = document.querySelector(".nav-charpter-3");
-
 changeTextAndNumber(char1.numberC, char1.textC);
 
-navHome.addEventListener(
-  "click",
-  changeTextAndNumber(char1.numberC, char1.textC)
-);
-navCharpter1.addEventListener(
-  "click",
-  changeTextAndNumber(char1.numberC, char1.textC)
-);
-navCharpter2.addEventListener(
-  "click",
-  changeTextAndNumber(char2.numberC, char2.textC)
-);
+navHome.addEventListener("click", () => {
+  changeTextAndNumber(char1.numberC, char1.textC);
+});
+
+navCharpter1.addEventListener("click", () => {
+  changeTextAndNumber(char1.numberC, char1.textC);
+});
+
+navCharpter2.addEventListener("click", () => {
+  changeTextAndNumber(char2.numberC, char2.textC);
+});
