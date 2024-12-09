@@ -1,0 +1,15 @@
+// Import all of Bootstrap's CSS
+@use "bootstrap/scss/bootstrap";
+body {
+  background: #b4b4b4;
+}
+.container {
+  background: white;
+}
+.chapter-number {
+  display: flex;
+  justify-content: center;
+}
+.nav-cursor {
+  cursor: pointer;
+}

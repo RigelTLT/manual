@@ -1,42 +1,66 @@
-const path = require("path"); // Импортируем модуль "path" для работы с путями файлов
+"use strict";
+
+const path = require("path");
+const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.js", // Точка входа для сборки проекта
-  target: "web",
+  mode: "development",
+  entry: "./src/js/main.js",
   output: {
-    filename: "bundle.js", // Имя выходного файла сборки
-    path: path.resolve(__dirname, "dist"), // Путь для выходного файла сборки
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
   },
-
+  devServer: {
+    static: path.resolve(__dirname, "dist"),
+    port: 8080,
+    hot: true,
+    open: true,
+    static: path.join(__dirname, "/assets/png"),
+  },
+  plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
   module: {
     rules: [
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
+        type: "assets/png",
+      },
+      {
+        test: /\.(scss)$/,
         use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
+          {
+            // Adds CSS to the DOM by injecting a `<style>` tag
+            loader: "style-loader",
+          },
+          {
+            // Interprets `@import` and `url()` like `import/require()` and will resolve them
+            loader: "css-loader",
+          },
+          {
+            // Loader for webpack to process CSS with PostCSS
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
+          {
+            // Loads a SASS/SCSS file and compiles it to CSS
+            loader: "sass-loader",
+            options: {
+              sassOptions: {
+                silenceDeprecations: [
+                  "mixed-decls",
+                  "color-functions",
+                  "global-builtin",
+                  "import",
+                ],
+              },
+            },
+          },
         ],
       },
     ],
   },
-
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
-  ],
-
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "dist"), // Каталог для статики
-    },
-    open: true, // Автоматически открывать браузер
-  },
-
-  mode: "development", // Режим сборки
 };
