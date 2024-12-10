@@ -30,21 +30,25 @@ module.exports = {
       filename: "index.html",
       chunks: ["main"],
       template: "./src/index.html",
+      favicon: "./public/assets/ico/manual.png",
     }),
     new HtmlWebpackPlugin({
       filename: "dictionary.html",
       chunks: ["dictionary", "main"],
       template: "./src/pages/dictionary/dictionary.html",
+      favicon: "./public/assets/ico/manual.png",
     }),
     new HtmlWebpackPlugin({
       filename: "chapter1.html",
       chunks: ["chapter1", "main"],
       template: "./src/pages/chapter1/chapter1.html",
+      favicon: "./public/assets/ico/manual.png",
     }),
     new HtmlWebpackPlugin({
       filename: "chapter2.html",
       chunks: ["chapter2", "main"],
       template: "./src/pages/chapter2/chapter2.html",
+      favicon: "./public/assets/ico/manual.png",
     }),
     // Если содержимое header.html нужно включать в другие страницы, используйте template
     new HtmlWebpackPlugin({
