@@ -1,0 +1,24 @@
+@use "bootstrap/scss/bootstrap";
+@use "./styles.scss";
+/*.nav-link.active {
+  background: #212529bf !important;
+}*/
+.nav-link {
+  color: #535455;
+}
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: #535455 !important; /* Измените на ваш желаемый цвет фона для активного элемента dropdown */
+  color: white; /* Измените цвет текста, если это необходимо */
+}
+.center-dictionary,
+h4,
+h5 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#navbar-example3 {
+  position: fixed;
+}

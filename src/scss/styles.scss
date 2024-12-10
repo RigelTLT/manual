@@ -6,10 +6,17 @@ body {
 .container {
   background: white;
 }
-.chapter-number {
+.chapter-number,
+.chapter-img {
   display: flex;
   justify-content: center;
 }
 .nav-cursor {
   cursor: pointer;
+}
+.img-logo {
+  max-width: 50%;
+}
+.dropdown-menu {
+  --bs-dropdown-link-active-bg: #535455;
 }

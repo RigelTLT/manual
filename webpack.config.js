@@ -1,43 +1,76 @@
-"use strict";
-
 const path = require("path");
 const autoprefixer = require("autoprefixer");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: "./src/js/main.js",
+  entry: {
+    main: "./src/js/main.js",
+    dictionary: "./src/components/dictionary/dictionary.js",
+    chapter1: "./src/components/chapter1/chapter1.js",
+    chapter2: "./src/components/chapter2/chapter2.js",
+  },
   output: {
-    filename: "main.js",
+    filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
+    clean: true, // Очищает папку dist перед каждой новой сборкой
+    assetModuleFilename: "assets/[hash][ext][query]", // Директория для вывода ресурсов
   },
   devServer: {
-    static: path.resolve(__dirname, "dist"),
     port: 8080,
-    hot: true,
     open: true,
-    static: path.join(__dirname, "/assets/png"),
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    historyApiFallback: true, // Позволяет использовать HTML5 History API
   },
-  plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: "index.html",
+      chunks: ["main"],
+      template: "./src/index.html",
+    }),
+    new HtmlWebpackPlugin({
+      filename: "dictionary.html",
+      chunks: ["dictionary", "main"],
+      template: "./src/pages/dictionary/dictionary.html",
+    }),
+    new HtmlWebpackPlugin({
+      filename: "chapter1.html",
+      chunks: ["chapter1", "main"],
+      template: "./src/pages/chapter1/chapter1.html",
+    }),
+    new HtmlWebpackPlugin({
+      filename: "chapter2.html",
+      chunks: ["chapter2", "main"],
+      template: "./src/pages/chapter2/chapter2.html",
+    }),
+    // Если содержимое header.html нужно включать в другие страницы, используйте template
+    new HtmlWebpackPlugin({
+      template: "./src/components/header/header.html",
+      filename: "components/header/header.html", // Укажите этот файл, если он нужен
+    }),
+    new HtmlWebpackPlugin({
+      template: "./src/components/footer/footer.html",
+      filename: "components/footer/footer.html", // Укажите этот файл, если он нужен
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{ from: "public/assets", to: "assets" }],
+    }),
+  ],
   module: {
     rules: [
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
-        type: "assets/png",
+        type: "asset/resource",
       },
       {
         test: /\.(scss)$/,
         use: [
+          "style-loader", // Инжекция CSS в DOM
+          "css-loader", // Обработка @import и url()
           {
-            // Adds CSS to the DOM by injecting a `<style>` tag
-            loader: "style-loader",
-          },
-          {
-            // Interprets `@import` and `url()` like `import/require()` and will resolve them
-            loader: "css-loader",
-          },
-          {
-            // Loader for webpack to process CSS with PostCSS
             loader: "postcss-loader",
             options: {
               postcssOptions: {
