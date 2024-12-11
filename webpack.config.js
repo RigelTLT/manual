@@ -10,12 +10,13 @@ module.exports = {
     dictionary: "./src/components/dictionary/dictionary.js",
     chapter1: "./src/components/chapter1/chapter1.js",
     chapter2: "./src/components/chapter2/chapter2.js",
+    chapter3: "./src/components/chapter3/chapter3.js",
   },
   output: {
     filename: "[name].[contenthash].js",
     path: path.resolve(__dirname, "dist"),
-    clean: true, // Очищает папку dist перед каждой новой сборкой
-    assetModuleFilename: "assets/[hash][ext][query]", // Директория для вывода ресурсов
+    clean: true,
+    assetModuleFilename: "assets/[hash][ext][query]",
   },
   devServer: {
     port: 8080,
@@ -23,7 +24,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
-    historyApiFallback: true, // Позволяет использовать HTML5 History API
+    historyApiFallback: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -50,14 +51,19 @@ module.exports = {
       template: "./src/pages/chapter2/chapter2.html",
       favicon: "./public/assets/ico/manual.png",
     }),
-    // Если содержимое header.html нужно включать в другие страницы, используйте template
+    new HtmlWebpackPlugin({
+      filename: "chapter3.html",
+      chunks: ["chapter23", "main"],
+      template: "./src/pages/chapter3/chapter3.html",
+      favicon: "./public/assets/ico/manual.png",
+    }),
     new HtmlWebpackPlugin({
       template: "./src/components/header/header.html",
-      filename: "components/header/header.html", // Укажите этот файл, если он нужен
+      filename: "components/header/header.html",
     }),
     new HtmlWebpackPlugin({
       template: "./src/components/footer/footer.html",
-      filename: "components/footer/footer.html", // Укажите этот файл, если он нужен
+      filename: "components/footer/footer.html",
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: "public/assets", to: "assets" }],
@@ -70,10 +76,14 @@ module.exports = {
         type: "asset/resource",
       },
       {
+        test: /\.(woff(2)?|eot|ttf|otf)$/i,
+        type: "asset/resource",
+      },
+      {
         test: /\.(scss)$/,
         use: [
-          "style-loader", // Инжекция CSS в DOM
-          "css-loader", // Обработка @import и url()
+          "style-loader",
+          "css-loader",
           {
             loader: "postcss-loader",
             options: {
