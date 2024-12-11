@@ -20,6 +20,16 @@ export function globalDisableСopying() {
       event.preventDefault(); // Отключаем стандартное поведение (печать страницы)
       console.log("Печать отключена.");
     }
+    if (event.ctrlKey && event.key === "ы") {
+      event.preventDefault(); // Отключаем стандартное поведение (сохранение страницы)
+      console.log("Сохранение отключено.");
+    }
+
+    // Проверяем, нажаты ли Ctrl и P
+    if (event.ctrlKey && event.key === "з") {
+      event.preventDefault(); // Отключаем стандартное поведение (печать страницы)
+      console.log("Печать отключена.");
+    }
   });
 }
 
